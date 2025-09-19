@@ -1,24 +1,22 @@
 "use client";
 import { useState, useEffect } from "react";
 import BookCard from "../../components/BookCard";
+import { Book } from "../../types";
 
 export default function LibraryPage() {
-  const [favorites, setFavorites] = useState<any[]>([]);
+  const [favorites, setFavorites] = useState<Book[]>([]);
 
   useEffect(() => {
     const saved = localStorage.getItem("favorites");
-    if (saved) setFavorites(JSON.parse(saved));
+    if (saved) {
+      setFavorites(JSON.parse(saved));
+    }
   }, []);
 
-  const removeFavorite = (id: string) => {
+  const removeBook = (id: string) => {
     const updated = favorites.filter((book) => book.id !== id);
     setFavorites(updated);
     localStorage.setItem("favorites", JSON.stringify(updated));
-  };
-
-  const clearFavorites = () => {
-    setFavorites([]);
-    localStorage.removeItem("favorites");
   };
 
   return (
@@ -28,24 +26,15 @@ export default function LibraryPage() {
       {favorites.length === 0 ? (
         <p className="text-gray-400">No favorite books yet.</p>
       ) : (
-        <>
-          <button
-            onClick={clearFavorites}
-            className="mb-6 px-4 py-2 bg-red-500 hover:bg-red-600 rounded-lg text-white font-semibold"
-          >
-            Clear All
-          </button>
-
-          <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            {favorites.map((book) => (
-              <BookCard
-                key={book.id}
-                {...book}
-                onRemove={() => removeFavorite(book.id)}
-              />
-            ))}
-          </div>
-        </>
+        <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          {favorites.map((book) => (
+            <BookCard
+              key={book.id}
+              {...book}
+              onRemove={() => removeBook(book.id)}
+            />
+          ))}
+        </div>
       )}
     </div>
   );
