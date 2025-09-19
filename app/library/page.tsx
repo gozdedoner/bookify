@@ -1,11 +1,13 @@
 "use client";
-import { useState, useEffect } from "react";
+
+import { useEffect, useState } from "react";
 import BookCard from "../../components/BookCard";
-import { Book } from "../../types";
+import { Book } from "../../types"; // ✅ types.ts'ten Book tipini import ettik
 
 export default function LibraryPage() {
-  const [favorites, setFavorites] = useState<Book[]>([]);
+  const [favorites, setFavorites] = useState<Book[]>([]); // ✅ any yerine Book[]
 
+  // LocalStorage'dan favorileri çek
   useEffect(() => {
     const saved = localStorage.getItem("favorites");
     if (saved) {
@@ -13,10 +15,17 @@ export default function LibraryPage() {
     }
   }, []);
 
-  const removeBook = (id: string) => {
+  // Tek tek favoriden silme
+  const removeFavorite = (id: string) => {
     const updated = favorites.filter((book) => book.id !== id);
     setFavorites(updated);
     localStorage.setItem("favorites", JSON.stringify(updated));
+  };
+
+  // Tümünü temizleme
+  const clearFavorites = () => {
+    setFavorites([]);
+    localStorage.removeItem("favorites");
   };
 
   return (
@@ -26,15 +35,31 @@ export default function LibraryPage() {
       {favorites.length === 0 ? (
         <p className="text-gray-400">No favorite books yet.</p>
       ) : (
-        <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {favorites.map((book) => (
-            <BookCard
-              key={book.id}
-              {...book}
-              onRemove={() => removeBook(book.id)}
-            />
-          ))}
-        </div>
+        <>
+          {/* Temizleme butonu */}
+          <div className="flex justify-end mb-4">
+            <button
+              onClick={clearFavorites}
+              className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition"
+            >
+              Clear All
+            </button>
+          </div>
+
+          {/* Favoriler listesi */}
+          <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            {favorites.map((book) => (
+              <BookCard
+                key={book.id}
+                id={book.id}
+                title={book.title}
+                author={book.author}
+                cover={book.cover}
+                onRemove={() => removeFavorite(book.id)} // ✅ tek tek silme
+              />
+            ))}
+          </div>
+        </>
       )}
     </div>
   );
