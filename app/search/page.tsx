@@ -1,8 +1,7 @@
 "use client";
 import { useState } from "react";
 import BookCard from "../../components/BookCard";
-import { Book } from "../../types";
-
+import { Book } from "../../types"; // ✅ doğru path
 
 // ✅ Google Books API için tip tanımı
 type GoogleBookItem = {
@@ -30,7 +29,7 @@ export default function SearchPage() {
       );
       const data = await res.json();
 
-      // ✅ any yerine GoogleBookItem kullanıyoruz
+     
       const mappedBooks: Book[] = (data.items || []).map(
         (item: GoogleBookItem) => ({
           id: item.id,
