@@ -1,6 +1,10 @@
-export interface Book {
+type GoogleBookItem = {
   id: string;
-  title: string;
-  author: string;
-  cover?: string;
-}
+  volumeInfo: {
+    title?: string;
+    authors?: string[];
+    imageLinks?: {
+      thumbnail?: string;
+    };
+  };
+};

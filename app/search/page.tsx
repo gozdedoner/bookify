@@ -1,7 +1,8 @@
 "use client";
 import { useState } from "react";
 import BookCard from "../../components/BookCard";
-import { Book } from "./../types"; // ✅ Book tipini import ettik
+import { Book } from "../../types";
+
 
 // ✅ Google Books API için tip tanımı
 type GoogleBookItem = {
