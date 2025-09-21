@@ -1,7 +1,9 @@
 import type { NextConfig } from "next";
 
 const config: NextConfig = {
+  output: "export", // ✅ GitHub Pages için statik export
   images: {
+    unoptimized: true, // ✅ next/image hatalarını önlemek için
     remotePatterns: [
       {
         protocol: "https",
@@ -11,6 +13,8 @@ const config: NextConfig = {
       },
     ],
   },
+  basePath: "/bookify", // ✅ repo adını yaz (senin repo adı "bookify")
+  assetPrefix: "/bookify/",
 };
 
 export default config;
