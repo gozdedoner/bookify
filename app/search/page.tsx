@@ -1,43 +1,23 @@
 "use client";
 import { useState } from "react";
 import BookCard from "../../components/BookCard";
-import { Book } from "../../types";
-
-// ✨ İYİLEŞTİRME 1: API'den gelen verinin yapısını daha detaylı tiplemek
-// Google Books API'sinden gelen her bir kitap objesinin tipi
-type GoogleBookItem = {
-  id: string;
-  volumeInfo: {
-    title?: string;
-    authors?: string[];
-    imageLinks?: {
-      thumbnail?: string;
-    };
-  };
-};
-
-// API yanıtının genel yapısının tipi
-type GoogleApiResponse = {
-  items?: GoogleBookItem[];
-  totalItems: number;
-};
+// ✨ DÜZELTME: Tipleri merkezi dosyadan import et
+import { Book, GoogleBookItem, GoogleApiResponse } from "../types";
 
 export default function SearchPage() {
   const [query, setQuery] = useState("");
   const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(false);
-  const [searched, setSearched] = useState(false); // ✨ Arama yapılıp yapılmadığını takip etmek için yeni state
+  const [searched, setSearched] = useState(false);
 
-  // API'den kitapları getir
   const fetchBooks = async (q: string) => {
     setLoading(true);
-    setSearched(true); // Arama başlatıldı olarak işaretle
-    setBooks([]); // Yeni arama öncesi eski sonuçları temizle
+    setSearched(true);
+    setBooks([]);
     try {
       const res = await fetch(
         `https://www.googleapis.com/books/v1/volumes?q=${q}`
       );
-      // API yanıtını yukarıda tanımladığımız tiple eşleştiriyoruz
       const data: GoogleApiResponse = await res.json();
 
       const mappedBooks: Book[] = (data.items || []).map(
@@ -54,13 +34,11 @@ export default function SearchPage() {
       setBooks(mappedBooks);
     } catch (err) {
       console.error("API hatası:", err);
-      // Hata durumunda da kullanıcıya bilgi verilebilir
     } finally {
       setLoading(false);
     }
   };
 
-  // Form submit
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (query.trim()) {
@@ -71,8 +49,6 @@ export default function SearchPage() {
   return (
     <div className="p-6">
       <h1 className="text-3xl font-bold text-pink-400 mb-6">🔎 Search Books</h1>
-
-      {/* Search Bar */}
       <form onSubmit={handleSearch} className="flex gap-2 mb-6">
         <input
           type="text"
@@ -89,17 +65,15 @@ export default function SearchPage() {
         </button>
       </form>
 
-      {/* Loading state */}
       {loading && <p className="text-center text-gray-400">Loading...</p>}
 
-      {/* ✨ İYİLEŞTİRME 2: "Sonuç Bulunamadı" mesajını gösterme */}
       {!loading && searched && books.length === 0 && (
+        // ✨ DÜZELTME: Tırnak işareti hatasını düzelt
         <p className="text-center text-gray-400">
-          No books found for "{query}".
+          {`No books found for "${query}".`}
         </p>
       )}
 
-      {/* Results */}
       <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {books.map((book) => (
           <BookCard
