@@ -1,11 +1,23 @@
 "use client";
 import { useState } from "react";
 import BookCard from "../../components/BookCard";
-import { Book } from "../../types"; // ✅ Book tipini import ettik
+import { Book } from "./../types"; // ✅ Book tipini import ettik
+
+// ✅ Google Books API için tip tanımı
+type GoogleBookItem = {
+  id: string;
+  volumeInfo: {
+    title?: string;
+    authors?: string[];
+    imageLinks?: {
+      thumbnail?: string;
+    };
+  };
+};
 
 export default function SearchPage() {
   const [query, setQuery] = useState("");
-  const [books, setBooks] = useState<Book[]>([]); // ✅ any yerine Book[]
+  const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(false);
 
   // API'den kitapları getir
@@ -17,15 +29,17 @@ export default function SearchPage() {
       );
       const data = await res.json();
 
-      // ✅ API'den gelen datayı Book tipine mapliyoruz
-      const mappedBooks: Book[] = (data.items || []).map((item: any) => ({
-        id: item.id,
-        title: item.volumeInfo.title || "Unknown Title",
-        author: item.volumeInfo.authors
-          ? item.volumeInfo.authors.join(", ")
-          : "Unknown Author",
-        cover: item.volumeInfo.imageLinks?.thumbnail,
-      }));
+      // ✅ any yerine GoogleBookItem kullanıyoruz
+      const mappedBooks: Book[] = (data.items || []).map(
+        (item: GoogleBookItem) => ({
+          id: item.id,
+          title: item.volumeInfo.title || "Unknown Title",
+          author: item.volumeInfo.authors
+            ? item.volumeInfo.authors.join(", ")
+            : "Unknown Author",
+          cover: item.volumeInfo.imageLinks?.thumbnail,
+        })
+      );
 
       setBooks(mappedBooks);
     } catch (err) {
