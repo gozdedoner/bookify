@@ -1,9 +1,10 @@
 "use client";
 import { useState } from "react";
 import BookCard from "../../components/BookCard";
-import { Book } from "../../types"; // ✅ doğru path
+import { Book } from "../../types";
 
-// ✅ Google Books API için tip tanımı
+// ✨ İYİLEŞTİRME 1: API'den gelen verinin yapısını daha detaylı tiplemek
+// Google Books API'sinden gelen her bir kitap objesinin tipi
 type GoogleBookItem = {
   id: string;
   volumeInfo: {
@@ -15,21 +16,30 @@ type GoogleBookItem = {
   };
 };
 
+// API yanıtının genel yapısının tipi
+type GoogleApiResponse = {
+  items?: GoogleBookItem[];
+  totalItems: number;
+};
+
 export default function SearchPage() {
   const [query, setQuery] = useState("");
   const [books, setBooks] = useState<Book[]>([]);
   const [loading, setLoading] = useState(false);
+  const [searched, setSearched] = useState(false); // ✨ Arama yapılıp yapılmadığını takip etmek için yeni state
 
   // API'den kitapları getir
   const fetchBooks = async (q: string) => {
     setLoading(true);
+    setSearched(true); // Arama başlatıldı olarak işaretle
+    setBooks([]); // Yeni arama öncesi eski sonuçları temizle
     try {
       const res = await fetch(
         `https://www.googleapis.com/books/v1/volumes?q=${q}`
       );
-      const data = await res.json();
+      // API yanıtını yukarıda tanımladığımız tiple eşleştiriyoruz
+      const data: GoogleApiResponse = await res.json();
 
-     
       const mappedBooks: Book[] = (data.items || []).map(
         (item: GoogleBookItem) => ({
           id: item.id,
@@ -44,6 +54,7 @@ export default function SearchPage() {
       setBooks(mappedBooks);
     } catch (err) {
       console.error("API hatası:", err);
+      // Hata durumunda da kullanıcıya bilgi verilebilir
     } finally {
       setLoading(false);
     }
@@ -78,8 +89,15 @@ export default function SearchPage() {
         </button>
       </form>
 
-      {/* Loading */}
-      {loading && <p className="text-gray-400">Loading...</p>}
+      {/* Loading state */}
+      {loading && <p className="text-center text-gray-400">Loading...</p>}
+
+      {/* ✨ İYİLEŞTİRME 2: "Sonuç Bulunamadı" mesajını gösterme */}
+      {!loading && searched && books.length === 0 && (
+        <p className="text-center text-gray-400">
+          No books found for "{query}".
+        </p>
+      )}
 
       {/* Results */}
       <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
