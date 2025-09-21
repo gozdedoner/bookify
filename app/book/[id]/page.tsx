@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Image from "next/image";
-import { Book } from "../../types";
+import { Book } from "../../../types";
+
 export default function BookDetailPage() {
   const { id } = useParams<{ id: string }>();
   const [book, setBook] = useState<Book | null>(null); // ✅ Book veya null
