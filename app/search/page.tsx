@@ -1,8 +1,8 @@
 "use client";
 import { useState } from "react";
 import BookCard from "../../components/BookCard";
-// ✨ DÜZELTME: Tipleri merkezi dosyadan import et
-import { Book, GoogleBookItem, GoogleApiResponse } from "../types";
+
+import { Book } from "@/app/types"; //
 
 export default function SearchPage() {
   const [query, setQuery] = useState("");

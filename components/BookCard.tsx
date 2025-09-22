@@ -1,13 +1,19 @@
 "use client";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import { Book } from "../types";
+import { Book } from "@/app/types";
 
 type BookCardProps = Book & {
   onRemove?: () => void;
 };
 
-export default function BookCard({ id, title, author, cover, onRemove }: BookCardProps) {
+export default function BookCard({
+  id,
+  title,
+  author,
+  cover,
+  onRemove,
+}: BookCardProps) {
   const [isFavorite, setIsFavorite] = useState(false);
 
   useEffect(() => {
@@ -58,7 +64,10 @@ export default function BookCard({ id, title, author, cover, onRemove }: BookCar
           ❌
         </button>
       ) : (
-        <button onClick={toggleFavorite} className="absolute top-2 right-2 text-xl">
+        <button
+          onClick={toggleFavorite}
+          className="absolute top-2 right-2 text-xl"
+        >
           {isFavorite ? "❤️" : "🤍"}
         </button>
       )}
