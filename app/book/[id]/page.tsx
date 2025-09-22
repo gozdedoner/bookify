@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Image from "next/image";
-import { Book } from "@/app/types";
+import { Book } from "../../types";
 
 
 export default function BookDetailPage() {

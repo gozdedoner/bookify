@@ -2,7 +2,7 @@
 import { useState } from "react";
 import BookCard from "../../components/BookCard";
 
-import { Book } from "@/app/types"; //
+import { Book } from "../types";
 
 export default function SearchPage() {
   const [query, setQuery] = useState("");

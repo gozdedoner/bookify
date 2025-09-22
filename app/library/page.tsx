@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import BookCard from "../../components/BookCard";
-import { Book } from "@/app/types"; // ✅ types.ts'ten Book tipini import ettik
+import { Book } from "../types"; // ✅ types.ts'ten Book tipini import ettik
 
 export default function LibraryPage() {
   const [favorites, setFavorites] = useState<Book[]>([]); // ✅ any yerine Book[]

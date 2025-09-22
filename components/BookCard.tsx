@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import { Book } from "@/app/types";
+import { Book } from "../app/types";
 
 type BookCardProps = Book & {
   onRemove?: () => void;
