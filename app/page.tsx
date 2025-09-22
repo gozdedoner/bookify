@@ -6,25 +6,25 @@ import { Book } from "./types"; // Book tipini ekle
 export default function HomePage() {
   const sampleBooks: Book[] = [
     {
-      id: "gatsby",
+      id: "book-gatsby",
       title: "The Great Gatsby",
       author: "F. Scott Fitzgerald",
       cover: "https://covers.openlibrary.org/b/id/6519016-L.jpg",
     },
     {
-      id: "1984",
+      id: "book-1984",
       title: "1984",
       author: "George Orwell",
       cover: "https://covers.openlibrary.org/b/id/7222246-L.jpg",
     },
     {
-      id: "mockingbird",
+      id: "book-mockingbird",
       title: "To Kill a Mockingbird",
       author: "Harper Lee",
       cover: "https://covers.openlibrary.org/b/id/9870932-L.jpg",
     },
     {
-      id: "bravenewworld",
+      id: "book-bravenewworld",
       title: "Brave New World",
       author: "Aldous Huxley",
       cover: "https://covers.openlibrary.org/b/id/12673998-L.jpg",
