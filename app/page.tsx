@@ -1,28 +1,33 @@
 "use client";
 import QuickSearch from "../components/QuickSearch";
 import BookCard from "../components/BookCard";
+import { Book } from "./types"; // Book tipini ekle
 
 export default function HomePage() {
-  const sampleBooks = [
+  const sampleBooks: Book[] = [
     {
+      id: "gatsby",
       title: "The Great Gatsby",
       author: "F. Scott Fitzgerald",
       cover: "https://covers.openlibrary.org/b/id/6519016-L.jpg",
     },
     {
+      id: "1984",
       title: "1984",
       author: "George Orwell",
       cover: "https://covers.openlibrary.org/b/id/7222246-L.jpg",
     },
     {
+      id: "mockingbird",
       title: "To Kill a Mockingbird",
       author: "Harper Lee",
       cover: "https://covers.openlibrary.org/b/id/9870932-L.jpg",
     },
     {
-      title: "Brave New World", // Değiştirildi
-      author: "Aldous Huxley", // Değiştirildi
-      cover: "https://covers.openlibrary.org/b/id/12673998-L.jpg", // ✅ Yeni ve farklı bir URL
+      id: "bravenewworld",
+      title: "Brave New World",
+      author: "Aldous Huxley",
+      cover: "https://covers.openlibrary.org/b/id/12673998-L.jpg",
     },
   ];
 
@@ -37,14 +42,20 @@ export default function HomePage() {
           Discover, explore, and save your favorite books.
         </p>
 
-        {/* Quick Search (Client Component) */}
+        {/* Quick Search */}
         <QuickSearch />
       </div>
 
       {/* Books Grid */}
       <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {sampleBooks.map((book, i) => (
-          <BookCard key={i} {...book} />
+        {sampleBooks.map((book) => (
+          <BookCard
+            key={book.id}
+            id={book.id}
+            title={book.title}
+            author={book.author}
+            cover={book.cover}
+          />
         ))}
       </div>
     </div>
