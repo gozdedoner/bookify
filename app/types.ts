@@ -1,11 +1,11 @@
-// app/types.ts dosyasının olması gereken tam hali
+// app/types.ts
 
 export type Book = {
   id: string;
   title: string;
   author: string;
   cover?: string;
-  // Kitap detayı için belki başka alanlar da ekleyebilirsiniz
+  // İstersen ekstra alanlar ekleyebilirsin:
   // description?: string;
   // publishedDate?: string;
 };
@@ -23,5 +23,5 @@ export type GoogleBookItem = {
 
 export type GoogleApiResponse = {
   items?: GoogleBookItem[];
-  totalItems: number;
+  totalItems?: number; // ✅ opsiyonel yaptık
 };

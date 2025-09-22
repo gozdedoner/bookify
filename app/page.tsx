@@ -1,7 +1,8 @@
 "use client";
 import QuickSearch from "../components/QuickSearch";
 import BookCard from "../components/BookCard";
-import { Book } from "./types"; // Book tipini ekle
+import { Book, GoogleBookItem, GoogleApiResponse } from "@/app/types";
+
 
 export default function HomePage() {
   const sampleBooks: Book[] = [
