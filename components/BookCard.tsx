@@ -15,6 +15,7 @@ export default function BookCard({
   onRemove,
 }: BookCardProps) {
   const [isFavorite, setIsFavorite] = useState(false);
+  const [imgError, setImgError] = useState(false);
 
   useEffect(() => {
     const saved = localStorage.getItem("favorites");
@@ -40,26 +41,15 @@ export default function BookCard({
 
   return (
     <div className="bg-gray-900 p-4 rounded-lg shadow-lg relative">
-      {cover ? (
-       <Image
-  src={cover || "/placeholder.png"}
-  alt={title || "No cover available"}
-  width={200}
-  height={300}
-  className="w-full h-60 object-cover rounded"
-/>
+      <Image
+        src={!cover || imgError ? "/placeholder.png" : cover}
+        alt={title}
+        width={200}
+        height={300}
+        className="w-full h-60 object-cover rounded"
+        onError={() => setImgError(true)} // 🚨 hata olursa placeholder göster
+      />
 
-      ) : (
-        <div className="w-full h-60 bg-gray-700 flex items-center justify-center text-gray-400">
-          <Image
-            src="/placeholder.png"
-            alt="No cover available"
-            width={200}
-            height={300}
-            className="w-full h-60 object-cover rounded"
-          />
-        </div>
-      )}
       <h3 className="text-lg font-bold text-pink-400 mt-3">{title}</h3>
       <p className="text-gray-400">{author}</p>
 
