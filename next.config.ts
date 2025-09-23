@@ -1,12 +1,18 @@
 import type { NextConfig } from "next";
 
 const config: NextConfig = {
-  output: "export",
   images: {
-    unoptimized: true,
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "covers.openlibrary.org",
+      },
+      {
+        protocol: "https",
+        hostname: "books.google.com",
+      },
+    ],
   },
-  basePath: "",
-  assetPrefix: "",
 };
 
 export default config;
